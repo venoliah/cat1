@@ -1,34 +1,35 @@
-import os
+import pandas as pd
 import json
+import os
 
-# Specify the base directory where your folders are located
-base_directory = 'C:/Users/User/OneDrive/Desktop/today/1.1/data'  # Adjust the path accordingly
+# Question 1
+folder_path = 'data'
+dfs = []
 
-# Initialize an empty list to store all data
-all_data = []
+# Read all JSON Lines files into a list of DataFrames
+for filename in os.listdir(folder_path):
+    file_path = os.path.join(folder_path, filename)
+    df = pd.read_json(file_path, orient='records', lines=True)
+    dfs.append(df)
+print(f'{len(dfs)} files have been converted')
 
-# Iterate through all folders in the base directory
-for folder_name in os.listdir(base_directory):
-    folder_path = os.path.join(base_directory, folder_name)
+# Iterate over language files
+for index, language_file in enumerate(os.listdir(folder_path)):
+    language_id = language_file.split('.')[0]  # Extract language ID from the filename
 
-    # Check if it's a directory
-    if os.path.isdir(folder_path):
-        # Iterate through all JSONL files in the folder
-        for filename in os.listdir(folder_path):
-            if filename.endswith('.jsonl'):
-                jsonl_file_path = os.path.join(folder_path, filename)
+    # Construct test data for each language pair
+    testdata = {
+        'id': dfs[index]['id'],
+        'en-utt': dfs[index]['utt'],
+        f'{language_id[:2]}-utt': dfs[index]['utt'],
+        'en-annot_utt': dfs[index]['annot_utt'],
+        f'{language_id[:2]}-annot_utt': dfs[index]['annot_utt']
+    }
 
-                # Initialize an empty list to store data from this file
-                data = []
+    dframe = pd.DataFrame(testdata)
 
-                # Open the JSONL file and read it line by line
-                with open(jsonl_file_path, 'r', encoding='utf-8') as file:
-                    for line in file:
-                        # Parse each line as a JSON object and append it to the data list
-                        json_object = json.loads(line)
-                        data.append(json_object)
+    # Write to Excel file with language ID in the filename
+    dframe.to_excel(f"excel/en-{language_id[:2]}.xlsx", index=False)
 
-                # Append the data from this file to the all_data list
-                all_data.extend(data)
+print("Excel files generated successfully.")
 
-# Now, 'all_data' contains a list of dictionaries from all JSONL files in all folders
