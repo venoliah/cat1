@@ -46,6 +46,8 @@ One can download and install it from Python's official website link: [Python](ht
   
   In python by default
 - Json
+
+  In python by default
 - OS
   
 ## Environment Setup
