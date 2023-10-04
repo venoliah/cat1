@@ -2,8 +2,7 @@ import pandas as pd
 import json
 import os
 
-
-#Question 1
+# Question 1
 folder_path = 'data'
 dfs = []
 
@@ -34,9 +33,9 @@ for index, language_file in enumerate(os.listdir(folder_path)):
 
 print("Excel files generated successfully.")
 
+
 # Question 2
 def read_json_files(folder_path):
-
     dfs = []
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
@@ -45,11 +44,12 @@ def read_json_files(folder_path):
     print(f'{len(dfs)} files have been converted')
     return dfs
 
-def save_partition_to_json(df, language_code, partition_name):
 
+def save_partition_to_json(df, language_code, partition_name):
     file_path = f'json/{language_code}_{partition_name}.jsonl'
     df.to_json(file_path, orient='records', lines=True)
     print(f'{file_path} generated successfully')
+
 
 def main():
     folder_path = 'data'
@@ -74,11 +74,12 @@ def main():
 
     return en_train, de_train, sw_train
 
+
 if __name__ == "__main__":
     en_train, de_train, sw_train = main()
 
-#Question 3
-testdatas = {
+# Question 3
+test_data = {
     'id': dfs[10]['id'],
     'en-utt': en_train['utt'],
     'de-utt': de_train['utt'],
@@ -86,11 +87,11 @@ testdatas = {
 
 }
 
-traintranslations = pd.DataFrame(testdatas)
+train_translations = pd.DataFrame(test_data)
 
-traintranslations.to_json('json/traintranslations.json', orient='records')
+train_translations.to_json('json/traintranslations.json', orient='records')
 
 with open('json/traintranslations.json', 'r') as json_file:
-    data = json.load(json_file)
+    loaded_data = json.load(json_file)
 
-print(json.dumps(data,indent=10))
+print(json.dumps(loaded_data, indent=10))
