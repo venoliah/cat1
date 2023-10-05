@@ -2,7 +2,6 @@ import pandas as pd
 import json
 import os
 
-
 # Question 1
 folder_path = 'data'
 dfs = []
@@ -34,35 +33,65 @@ for index, language_file in enumerate(os.listdir(folder_path)):
 
 print("Excel files generated successfully.")
 
-# Question 2 (a)
-en_train = dfs[10][dfs[10]['partition']=='train']
-en_train.to_json('json/en_train.jsonl',orient='records',lines=True)
 
-en_test = dfs[10][dfs[10]['partition']=='test']
-en_test.to_json('json/en_test.jsonl',orient='records',lines=True)
-
-en_dev = dfs[10][dfs[10]['partition']=='dev']
-en_dev.to_json('json/en_dev.jsonl',orient='records',lines=True)
-
-
-de_train = dfs[8][dfs[8]['partition']=='train']
-de_train.to_json('json/de_train.jsonl',orient='records',lines=True)
+# Question 2
+def read_json_files(folder_path):
+    dfs = []
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        df = pd.read_json(file_path, orient='records', lines=True)
+        dfs.append(df)
+    print(f'{len(dfs)} files have been converted')
+    return dfs
 
 
-de_test = dfs[8][dfs[8]['partition']=='test']
-de_test.to_json('json/de_test.jsonl',orient='records',lines=True)
-
-de_dev = dfs[8][dfs[8]['partition']=='dev']
-de_dev.to_json('json/de_dev.jsonl',orient='records',lines=True)
-
-
-sw_train = dfs[42][dfs[42]['partition']=='train']
-sw_train.to_json('json/sw_train.jsonl',orient='records',lines=True)
+def save_partition_to_json(df, language_code, partition_name):
+    file_path = f'json/{language_code}_{partition_name}.jsonl'
+    df.to_json(file_path, orient='records', lines=True)
+    print(f'{file_path} generated successfully')
 
 
+def main():
+    folder_path = 'data'
+    dfs = read_json_files(folder_path)
 
-sw_test = dfs[42][dfs[42]['partition']=='test']
-sw_test.to_json('json/sw_test.jsonl',orient='records',lines=True)
+    # Define language indices
+    language_indices = {
+        'en': 10,
+        'de': 8,
+        'sw': 42
+    }
 
-sw_dev = dfs[42][dfs[42]['partition']=='dev']
-sw_dev.to_json('json/sw_dev.jsonl',orient='records',lines=True)
+    partitions = ['train', 'test', 'dev']
+    en_train = dfs[language_indices['en']][dfs[language_indices['en']]['partition'] == 'train']
+    de_train = dfs[language_indices['de']][dfs[language_indices['de']]['partition'] == 'train']
+    sw_train = dfs[language_indices['sw']][dfs[language_indices['sw']]['partition'] == 'train']
+
+    for language_code, index in language_indices.items():
+        for partition_name in partitions:
+            partition_df = dfs[index][dfs[index]['partition'] == partition_name]
+            save_partition_to_json(partition_df, language_code, partition_name)
+
+    return en_train, de_train, sw_train
+
+
+if __name__ == "__main__":
+    en_train, de_train, sw_train = main()
+
+# Question 3
+test_data = {
+    'id': dfs[10]['id'],
+    'en-utt': en_train['utt'],
+    'de-utt': de_train['utt'],
+    'sw-utt': sw_train['utt']
+
+}
+
+train_translations = pd.DataFrame(test_data)
+
+train_translations.to_json('json/traintranslations.json', orient='records')
+
+with open('json/traintranslations.json', 'r') as json_file:
+    loaded_data = json.load(json_file)
+
+print(json.dumps(loaded_data, indent=10))

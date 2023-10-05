@@ -1,33 +1,34 @@
 # MassiveDataset
 
-This project is a python based project working with the massive dataset from amazon.
+This Python-based project focuses on processing and analyzing a vast dataset sourced from Amazon.
 
-## What to expect in the project
+## Project Overview
 
 #### Pandas
 
-- Utilizing Pandas to convert a large dataset of jsonl files into dataframes and storing all the dataframes in a list.
-- Using these dataframes, merging them, and filtering out data that is not needed.
-- Storing the filtered data into excel files.
+-Utilizes Pandas to efficiently convert extensive JSONL files into dataframes and organizes them within a list.
 
+-Utilizes these dataframes for merging, data filtering, and subsequent storage of the filtered data into Excel files.
 
-## How the project works
+#### Openxyl
 
-The project works by first converting the dataset of jsonl files into dataframes, storing these in a list, and filtering out unnecessary data from these files. Once that is done,
- the data is stored into excel files. The filtered out data is then split using the "partition" column where data is seperated into 3 categories train, test and dev. These categories
- are stored in different jsonl files. Using the train category we translate english to the other languages, then store the result in a json file. Then we pretty print the json file structure.
+-Utilizes Openxyl to effectively manage and store the filtered data in Excel files.
 
-## Prerequisites for a fully running project.
-In order for one to have a fully running project one needs to have the following:
+## Project Workflow
+
+The project begins by converting the JSONL dataset into dataframes, storing them in a list, and filtering out unnecessary data. The filtered data is then stored in Excel files. This filtered data is further categorized into 'train,' 'test,' and 'dev' using the 'partition' column. Subsequently, the 'train' category is used for English-to-other-language translation, with the results being stored in a JSON file. Then we pretty print the json file structure.
+
+## Prerequisites for a fully running project
+In order for one to have a fully running project, one needs to have the following:
 
 *Python installed in PC*
 
-One can download and install it from the link: [Python](https://www.python.org/downloads/)
+One can download and install it from Python's official website link: [Python](https://www.python.org/downloads/)
 
 *Libraries*
 - Pandas
 
-   To install this library, type the following command
+   To install this library, run the following command
   
   ``` 
   pip install pandas
@@ -36,21 +37,20 @@ One can download and install it from the link: [Python](https://www.python.org/d
 
 - Openpyxl
 
-   To install this library, type the following command
+   To install this library, run the following command
   
    ```
   pip install openpyxl
    ```
-  
-- OS
 
+  
   In python by default
 - Json
 
   In python by default
+- OS
   
-
-## Setting Up the Environment
+## Environment Setup
   
 After installing python, create an environment. The steps are as follows:
 
@@ -60,11 +60,11 @@ After installing python, create an environment. The steps are as follows:
 
 2. *Dependency Installation:*
 
-      Install all relevant dependencies required for the project. These dependencies will vary depending on your specific use case, so make sure to install the necessary packages for your environment.
+     Install all relevant dependencies required for the project. These dependencies may vary depending on your specific use case, so ensure you install the necessary packages for your environment.
 
 5. *Project Structure:*
 
-      Create a Python3 project with the structure typical for projects in PyCharm or your preferred IDE.
+      Create a Python3 project with a standard structure suitable for your preferred IDE, such as PyCharm.
 
-## Relevant Sources
-   In order for the project to be complete, extensive research was done from articles of related works and youtube tutorials.
+## References
+   The completion of this project involved extensive research from articles, related works, and YouTube tutorials to ensure completeness and accuracy.
