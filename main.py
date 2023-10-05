@@ -2,22 +2,22 @@ import pandas as pd
 import json
 import os
 
-# Question 1
+"""Question 1"""
 folder_path = 'data'
 dfs = []
 
-# Read all JSON Lines files into a list of DataFrames
+"""Read all JSON Lines files into a list of DataFrames"""
 for filename in os.listdir(folder_path):
     file_path = os.path.join(folder_path, filename)
     df = pd.read_json(file_path, orient='records', lines=True)
     dfs.append(df)
 print(f'{len(dfs)} files have been converted')
 
-# Iterate over language files
+"""Iterate over language files"""
 for index, language_file in enumerate(os.listdir(folder_path)):
     language_id = language_file.split('.')[0]  # Extract language ID from the filename
 
-    # Construct test data for each language pair
+    """Construct test data for each language pair"""
     testdata = {
         'id': dfs[index]['id'],
         'en-utt': dfs[index]['utt'],
@@ -28,13 +28,13 @@ for index, language_file in enumerate(os.listdir(folder_path)):
 
     dframe = pd.DataFrame(testdata)
 
-    # Write to Excel file with language ID in the filename
+    """Write to Excel file with language ID in the filename"""
     dframe.to_excel(f"excel/en-{language_id[:2]}.xlsx", index=False)
 
 print("Excel files generated successfully.")
 
 
-# Question 2
+"""Question 2"""
 def read_json_files(folder_path):
     dfs = []
     for filename in os.listdir(folder_path):
@@ -55,7 +55,7 @@ def main():
     folder_path = 'data'
     dfs = read_json_files(folder_path)
 
-    # Define language indices
+    """Define language indices"""
     language_indices = {
         'en': 10,
         'de': 8,
@@ -78,7 +78,7 @@ def main():
 if __name__ == "__main__":
     en_train, de_train, sw_train = main()
 
-# Question 3
+"""Question 3"""
 test_data = {
     'id': dfs[10]['id'],
     'en-utt': en_train['utt'],
