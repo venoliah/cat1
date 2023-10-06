@@ -36,8 +36,6 @@ def generate_excel_files(folder_path, dfs):
 
 
 """Question 2"""
-
-
 def read_json_files(folder_path):
     dfs = []
     for filename in os.listdir(folder_path):
@@ -82,19 +80,19 @@ if __name__ == "__main__":
     en_train, de_train, sw_train = main()
 
 """Question 3"""
-test_data = {
-    'id': dfs[10]['id'],
-    'en-utt': en_train['utt'],
-    'de-utt': de_train['utt'],
-    'sw-utt': sw_train['utt']
+def generate_and_save_translations(dfs, en_train, de_train, sw_train):
+    test_data = {
+        'id': dfs[10]['id'],
+        'en-utt': en_train['utt'],
+        'de-utt': de_train['utt'],
+        'sw-utt': sw_train['utt']
+    }
 
-}
+    train_translations = pd.DataFrame(test_data)
 
-train_translations = pd.DataFrame(test_data)
+    train_translations.to_json('json/traintranslations.json', orient='records')
 
-train_translations.to_json('json/traintranslations.json', orient='records')
+    with open('json/traintranslations.json', 'r') as json_file:
+        loaded_data = json.load(json_file)
 
-with open('json/traintranslations.json', 'r') as json_file:
-    loaded_data = json.load(json_file)
-
-print(json.dumps(loaded_data, indent=10))
+    print(json.dumps(loaded_data, indent=10))
